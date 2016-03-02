@@ -1,3 +1,10 @@
+$(function(){
+    var id = localStorage.getItem('id');
+    if (!id){
+        localStorage.setItem('id', 0);
+    }
+});
+
 var notes = [
     {
         id: 1,
@@ -13,10 +20,12 @@ var notes = [
     }
 
 ];
-var id = 0;
-var list_of_notes = $('#list_of_notes');
 
 var form = $('#form_note');
+
+var get_id = function () {
+    return localStorage.getItem('id')
+};
 
 var get_notes = function () {
     notes = JSON.parse(localStorage.getItem('notes'));
@@ -26,15 +35,23 @@ var get_notes = function () {
     return notes;
 
 };
+ var new_id = function () {
+     var id = parseInt(get_id()) + 1;
+     localStorage.setItem('id', id);
+     return id
+ };
 
 var set_notes = function (notes_l) {
+
     return localStorage.setItem('notes', JSON.stringify(notes_l));
 };
 
 var add_notes = function (notes_l) {
     var new_text = $('#add_text').val();
     var new_title = $('#add_title').val();
-    notes_l.push({id: id+1, title: new_title, text: new_text, date: new Date()});
+    notes_l.push({id: new_id(), title: new_title, text: new_text, date: new Date()});
+
+
     return notes_l;
 };
 
@@ -47,11 +64,9 @@ var edit_note = function () {
 };
 
 var display_notes = function () {
-    //var list_n = list_of_notes.append('<p class="bg-info"><h3> Title: ' + item.title +'<br> Text:' + item.text +'<br> Date created:'+ item.date + '</h3></p><hr><br>');
 
-    return $('#list').tmpl(notes_l).appendTo('#table_list');
+    return $('#table_list').html($('#list').tmpl(notes_l));
 
-    //return list_n
 };
 
 var notes_l = get_notes();
@@ -64,11 +79,8 @@ form.submit(function(event){
     event.preventDefault();
     add_notes(notes_l);
     set_notes(notes_l);
-    $('#list_of_notes').empty();
-
-    //notes_l.forEach(function(item){
-    display_notes(notes_l)
-    //});
+    $('#table_list').empty();
+    display_notes();
 
 });
 
