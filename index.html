@@ -15,10 +15,12 @@
     <script id="list" type="text/x-jquery-tmpl">
 
             <tr>
-                <td>${id}</td>
+                <td>${id_l} </td>
                 <td>${title}</td>
                 <td>${text}</td>
                 <td>${date}</td>
+                <td><span data-id="${id_l}" class="glyphicon glyphicon-trash remove-button" aria-hidden="true"></span></td>
+                <td><span data-id="${id_l}" class="glyphicon glyphicon-pencil edit_button" aria-hidden="true"></span></td>
             </tr>
 
 
@@ -34,11 +36,13 @@
         <form id="form_note" class="form-horizontal" role="form">
             <div class="form-group">
                 <label>New note</label>
-                <input id="add_title" type="text" class="form-control" placeholder="add new title">
+                <input id="add_title" type="text" class="form-control" placeholder="add new title"> <br>
                 <input id="add_text" type="text" class="form-control" placeholder="add new note">
+                <input id="add_id" type="text" class="form-control" >
             </div>
 
            <button id="add_button" type="submit" class="btn btn-default">Add</button>
+
 
         </form>
 
@@ -47,7 +51,7 @@
 
             <div id="list_of_notes" >
                 <table id="table_list" class="table">
-                    <tr><td>id</td><td>title</td><td>text</td><td>date</td></tr>
+                    
                 </table>
 
 

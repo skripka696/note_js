@@ -1,3 +1,10 @@
 h1, h3 {
     text-align: center;
 }
+span :hover {
+
+}
+
+#add_id {
+    display: none;
+}
