@@ -114,6 +114,7 @@ $(document).on('click', '.edit_button', function () {
     });
 
 
+
 form.submit(function(event) {
     event.preventDefault();
     if (!button_id.val()) {
