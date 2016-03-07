@@ -8,3 +8,7 @@ span :hover {
 #add_id {
     display: none;
 }
+
+.dropdown-menu {
+    padding: 10px 16px;
+}

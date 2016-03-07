@@ -3,6 +3,7 @@ $(function () {
     if (!id) {
         localStorage.setItem('id', 0);
     }
+
 });
 
 $(function () {
@@ -11,11 +12,13 @@ $(function () {
             title: 'title',
             text: 'text',
             date: 'new Date()',
+            image: 'image'
         },
         2: {
             title: 'title',
             text: 'text',
             date: 'new Date()',
+            image: 'image'
         }
     };
 
@@ -25,9 +28,15 @@ $(function () {
     var text = $('#add_text');
     var button_id = $('#add_id');
 
+
+
     var get_id = function () {
         return localStorage.getItem('id')
     };
+
+    //var add_images = function () {
+    //
+    //};
 
     var get_notes = function () {
         notes_l = JSON.parse(localStorage.getItem('notes'));
@@ -48,23 +57,27 @@ $(function () {
         return localStorage.setItem('notes', JSON.stringify(notes_l));
     };
 
-    var add_notes = function (notes_l, id) {
+    var add_notes = function (notes_l, id, cat) {
         var new_text = $('#add_text').val();
         var new_title = $('#add_title').val();
+        var image = $('#icons>button>span').attr('class');
         id = new_id();
         notes_l[id] = {
             id_l: id,
             title: new_title,
             text: new_text,
-            date: new Date()
+            date: new Date(),
+            image: image,
         };
+
+
+        //$('#iconf').remove('.active')
+
         return notes_l;
     };
 
     var del_notes = function (note) {
         var id = $(note).attr('data-id');
-
-        console.log(id, notes_l[id])
         delete notes_l[id];
         set_notes(notes_l);
         $('#table_list').empty();
@@ -74,12 +87,10 @@ $(function () {
     };
 
     var edit_note = function (id_edit) {
-
         notes_l[id_edit]['text'] = text.val();
         notes_l[id_edit]['title'] = $('#add_title').val();
         notes_l[id_edit]['date'] = new Date();
         set_notes(notes_l);
-        console.log(notes_l);
         $('#table_list').empty();
         $.each(notes_l, function (key, value) {
             display_notes(value)
@@ -90,9 +101,7 @@ $(function () {
     };
 
     var display_notes = function (item) {
-
         return $('#table_list').append($('#list').tmpl(item));
-
     };
 
     var notes_l = get_notes();
@@ -110,13 +119,18 @@ $(function () {
     $(document).on('click', '.edit_button', function () {
         var id_edit = $(this).data('id');
         button_id.val(id_edit);
-        console.log(id_edit);
-
         title.val(notes_l[id_edit]['title']);
         text.val(notes_l[id_edit]['text']);
 
     });
 
+     $('.cat').click(function(e) {
+            e.preventDefault();
+            $('.cat').removeClass('active');
+            $(this).addClass('active');
+            $('#icons').html($(this).clone());
+            console.log($('.active'));
+     });
 
     form.submit(function (event) {
         event.preventDefault();
@@ -125,6 +139,7 @@ $(function () {
         if (!button_id.val()) {
             add_notes(notes_l);
             set_notes(notes_l);
+            $('#icons').html(' Icons <span class="caret"></span> ');
             $('#table_list').empty();
             $.each(notes_l, function (key, value) {
                 display_notes(value)
